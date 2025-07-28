@@ -1,22 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import Card from "../components/ui/card";
-import Button from "../components/ui/button";
-import Progress from "../components/ui/progress";
-import Input from "../components/ui/input";
+import Card from "../../components/UI/card";
+import Button from "../../components/UI/button";
+import Progress from "../../components/UI/progress";
+import Input from "../../components/UI/input";
 
 // Helper for relevant image/icon (step 3 will improve this)
 function getRelevantImage(question: string) {
-  const keywords = [
-    "animal", "science", "math", "history", "geography", "technology", "plant", "space", "computer", "physics", "chemistry", "biology", "earth", "ocean", "music", "art", "literature"
-  ];
+  // Simple keyword-based Unsplash image
+  const keywords = ["animal", "science", "math", "history", "geography", "technology"];
   const lower = question.toLowerCase();
   for (const word of keywords) {
     if (lower.includes(word)) return `https://source.unsplash.com/600x200/?${word}`;
   }
-  // fallback to an education icon
-  return "https://img.icons8.com/ios-filled/100/4a90e2/education.png";
+  return `https://source.unsplash.com/600x200/?education`;
 }
 
 export default function QuizDashboard() {
@@ -210,24 +208,12 @@ ${rawContent}
   }
 
   // --- Results page ---
-  const getRank = (score, total) => {
-    const percent = (score / total) * 100;
-    if (percent === 100) return "Quiz Master 🏆";
-    if (percent >= 80) return "Expert 🎓";
-    if (percent >= 60) return "Advanced 👍";
-    if (percent >= 40) return "Intermediate 🙂";
-    if (percent >= 20) return "Beginner 👶";
-    return "Try Again!";
-  };
-
+  // (Ranking and restart will be improved in next steps)
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Card className="p-8 w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-6 text-center">Quiz Completed!</h2>
-        <p className="text-lg font-semibold text-center mb-2">Your Score: {score} / {questions.length}</p>
-        <p className="text-center text-xl mb-6">
-          <span className="inline-block px-4 py-2 bg-blue-100 rounded-full">{getRank(score, questions.length)}</span>
-        </p>
+        <p className="text-lg font-semibold text-center mb-4">Your Score: {score} / {questions.length}</p>
         <ul className="mt-4 space-y-4">
           {answers.map((ans, i) => (
             <li key={i} className={`p-4 rounded ${ans.correct ? "bg-green-50" : "bg-red-50"}`}>
